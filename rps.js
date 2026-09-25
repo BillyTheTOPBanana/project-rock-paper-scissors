@@ -37,16 +37,18 @@ function playGame() {
         if (computerChoice === humanChoice) {
         console.log(`Tie! You both chose ${capitalizeInitialOnly(computerChoice)}!`)
         }
-        else if ( (computerChoice === "rock"     && humanChoice === "scissors") ||
-                (computerChoice === "paper"    && humanChoice === "rock")     ||
-                (computerChoice === "scissors" && humanChoice === "paper") )
+        else if (
+            (computerChoice === "rock"     && humanChoice === "scissors") ||
+            (computerChoice === "paper"    && humanChoice === "rock")     ||
+            (computerChoice === "scissors" && humanChoice === "paper"))
         {
             ++computerScore;
             console.log(`You lose! ${capitalizeInitialOnly(computerChoice)} beats ${capitalizeInitialOnly(humanChoice)}!`);
         }
-        else if ( (humanChoice === "rock"     && computerChoice === "scissors") ||
-                (humanChoice === "paper"    && computerChoice === "rock")     ||
-                (humanChoice === "scissors" && computerChoice === "paper") )
+        else if (
+            (humanChoice === "rock"     && computerChoice === "scissors") ||
+            (humanChoice === "paper"    && computerChoice === "rock")     ||
+            (humanChoice === "scissors" && computerChoice === "paper"))
         {
             ++humanScore;
             console.log(`You win! ${capitalizeInitialOnly(humanChoice)} beats ${capitalizeInitialOnly(computerChoice)}!`);
