@@ -33,3 +33,19 @@ function getComputerChoice() {
         return "scissors";
     }
 }
+
+//return the user's choice. ASSUME VALID INPUT as per TOP's instructions
+function getHumanChoice() {
+    /**
+     * Plan:
+     * use prompt(). trivial, right?
+     * 
+     * Testing:
+     * Problem:
+     * prompt() is not supported in the Live Preview console, apparently.
+     * Solution:
+     * Open the HTML in Chrome and use the DevTools console there
+     */
+
+    return prompt("Enter rock, paper, or scissors").toLowerCase();
+}
