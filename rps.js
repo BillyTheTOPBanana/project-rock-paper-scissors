@@ -1,5 +1,22 @@
 const TARGET_SCORE = 5;
 
+const mainMessage     = document.querySelector("#main-message");
+const button_rock     = document.querySelector("#rock");
+const button_paper    = document.querySelector("#paper");
+const button_scissors = document.querySelector("#scissors");
+const scores          = document.querySelector("#scores");
+const progressMessage = document.querySelector("#progress-message");
+const resetButton     = document.querySelector("#reset-button");
+
+button_rock    .addEventListener("click", e => playRound(getComputerChoice(), "rock"));
+button_paper   .addEventListener("click", e => playRound(getComputerChoice(), "paper"));
+button_scissors.addEventListener("click", e => playRound(getComputerChoice(), "scissors"));
+resetButton    .addEventListener("click", e => resetGame());
+
+let humanScore;
+let computerScore;
+resetGame();
+
 function getComputerChoice() {
     //randomly return "rock", "paper", or "scissors"
 
@@ -29,15 +46,15 @@ function capitalizeInitialOnly(str) {
 }
 
 function displayScores(_computerScore, _humanScore) {
-    const scoreDiv = document.querySelector("#scores");
+    const scoreDiv = scores;
     scoreDiv.innerHTML = `Computer: ${_computerScore}<br>Human: ${_humanScore}`;
 }
 
 function playRound(computerChoice, humanChoice) {
     //evaluate and report the result; and update scores
 
-    const mainMessage = document.querySelector("#main-message");
-    const progressMessage = document.querySelector("#progress-message");
+    const mainMessage = mainMessage;
+    const progressMessage = progressMessage;
 
     if (computerChoice === humanChoice) {
         mainMessage.textContent = `Tie! You both chose ${capitalizeInitialOnly(computerChoice)}!`;
@@ -63,7 +80,7 @@ function playRound(computerChoice, humanChoice) {
     displayScores(computerScore, humanScore);
 
     if (computerScore >= TARGET_SCORE || humanScore >= TARGET_SCORE) {
-        document.querySelector("#reset-button").removeAttribute("hidden");
+        resetButton.removeAttribute("hidden");
         button_rock    .setAttribute("disabled","");
         button_paper   .setAttribute("disabled","");
         button_scissors.setAttribute("disabled","");
@@ -77,24 +94,11 @@ function playRound(computerChoice, humanChoice) {
 function resetGame() {
     humanScore = 0;
     computerScore = 0;
-    document.querySelector("#main-message").textContent = "Choose your weapon:";
-    document.querySelector("#scores").innerHTML = "";
-    document.querySelector("#progress-message").textContent = "";
-    document.querySelector("#reset-button").setAttribute("hidden","");
+    mainMessage.textContent = "Choose your weapon:";
+    scores.innerHTML = "";
+    progressMessage.textContent = "";
+    resetButton.setAttribute("hidden","");
     button_rock    .removeAttribute("disabled");
     button_paper   .removeAttribute("disabled");
     button_scissors.removeAttribute("disabled");
 }
-
-const button_rock     = document.querySelector("#rock");
-const button_paper    = document.querySelector("#paper");
-const button_scissors = document.querySelector("#scissors");
-button_rock    .addEventListener("click", e => playRound(getComputerChoice(), "rock"));
-button_paper   .addEventListener("click", e => playRound(getComputerChoice(), "paper"));
-button_scissors.addEventListener("click", e => playRound(getComputerChoice(), "scissors"));
-
-document.querySelector("#reset-button").addEventListener("click", e => resetGame());
-
-let humanScore;
-let computerScore;
-resetGame();
