@@ -1,3 +1,5 @@
+const TARGET_SCORE = 5;
+
 function getComputerChoice() {
     //randomly return "rock", "paper", or "scissors"
 
@@ -26,55 +28,66 @@ function capitalizeInitialOnly(str) {
     return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 }
 
-function playGame() {
-    //play 5 rounds and log the result
-    
-    function playRound(computerChoice, humanChoice) {
-        //evaluate and log the result; and update scores
-
-        //the instructions said to declare playRound inside of playGame, which is weird to me, but there ya go.
-
-        if (computerChoice === humanChoice) {
-        console.log(`Tie! You both chose ${capitalizeInitialOnly(computerChoice)}!`)
-        }
-        else if (
-            (computerChoice === "rock"     && humanChoice === "scissors") ||
-            (computerChoice === "paper"    && humanChoice === "rock")     ||
-            (computerChoice === "scissors" && humanChoice === "paper"))
-        {
-            ++computerScore;
-            console.log(`You lose! ${capitalizeInitialOnly(computerChoice)} beats ${capitalizeInitialOnly(humanChoice)}!`);
-        }
-        else if (
-            (humanChoice === "rock"     && computerChoice === "scissors") ||
-            (humanChoice === "paper"    && computerChoice === "rock")     ||
-            (humanChoice === "scissors" && computerChoice === "paper"))
-        {
-            ++humanScore;
-            console.log(`You win! ${capitalizeInitialOnly(humanChoice)} beats ${capitalizeInitialOnly(computerChoice)}!`);
-        }
-        else console.assert(false);
-    }
-    
-    let humanScore = 0;
-    let computerScore = 0;
-    
-    for (let round=1; round<=5; round++) {        
-        console.log(`Round ${round}:`);
-        playRound(getComputerChoice(), getHumanChoice());
-    }
-    
-    let messageBuffer = `Final result:\nYour score: ${humanScore}\nComputer score: ${computerScore}\nAfter 5 rounds, `;
-    if (humanScore === computerScore) {
-        messageBuffer += "it's a tie! 🤷";
-    }
-    else if (humanScore > computerScore) {
-        messageBuffer += "you won! 😁";
-    }
-    else {
-        messageBuffer += "you lost! 😢";
-    }
-    console.log(messageBuffer);
+function displayScores(_computerScore, _humanScore) {
+    const scoreDiv = document.querySelector("#scores");
+    scoreDiv.innerHTML = `Computer: ${_computerScore}<br>Human: ${_humanScore}`;
 }
 
-playGame();
+function playRound(computerChoice, humanChoice) {
+    //evaluate and report the result; and update scores
+
+    const mainMessage = document.querySelector("#main-message");
+    const progressMessage = document.querySelector("#progress-message");
+
+    if (computerChoice === humanChoice) {
+        mainMessage.textContent = `Tie! You both chose ${capitalizeInitialOnly(computerChoice)}!`;
+    }
+    else if (
+        (computerChoice === "rock"     && humanChoice === "scissors") ||
+        (computerChoice === "paper"    && humanChoice === "rock")     ||
+        (computerChoice === "scissors" && humanChoice === "paper"))
+    {
+        ++computerScore;
+        mainMessage.textContent = `You lose! ${capitalizeInitialOnly(computerChoice)} beats ${capitalizeInitialOnly(humanChoice)}!`;
+    }
+    else if (
+        (humanChoice === "rock"     && computerChoice === "scissors") ||
+        (humanChoice === "paper"    && computerChoice === "rock")     ||
+        (humanChoice === "scissors" && computerChoice === "paper"))
+    {
+        ++humanScore;
+        mainMessage.textContent = `You win! ${capitalizeInitialOnly(humanChoice)} beats ${capitalizeInitialOnly(computerChoice)}!`;
+    }
+    else console.assert(false);
+
+    displayScores(computerScore, humanScore);
+
+    if (computerScore >= TARGET_SCORE || humanScore >= TARGET_SCORE)
+        document.querySelector("#reset-button").removeAttribute("hidden");
+
+    progressMessage.textContent = computerScore >= TARGET_SCORE ? "The computer has won the game! I, for one, welcome our cybernetic overlords."
+                                : humanScore >= TARGET_SCORE ? "You have beaten the computer! There is still hope for humanity."
+                                : "First to 5 wins...";
+}
+
+function resetGame() {
+    humanScore = 0;
+    computerScore = 0;
+    document.querySelector("#main-message").textContent = "Choose your weapon:";
+    document.querySelector("#scores").innerHTML = "";
+    document.querySelector("#progress-message").textContent = "";
+    document.querySelector("#reset-button").setAttribute("hidden","");
+}
+
+const button_rock     = document.querySelector("#rock");
+const button_paper    = document.querySelector("#paper");
+const button_scissors = document.querySelector("#scissors");
+button_rock.addEventListener("click", e => playRound(getComputerChoice(), "rock"));
+button_paper.addEventListener("click", e => playRound(getComputerChoice(), "paper"));
+button_scissors.addEventListener("click", e => playRound(getComputerChoice(), "scissors"));
+
+document.querySelector("#reset-button").addEventListener("click", e => resetGame());
+
+let humanScore;
+let computerScore;
+resetGame();
