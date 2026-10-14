@@ -62,12 +62,16 @@ function playRound(computerChoice, humanChoice) {
 
     displayScores(computerScore, humanScore);
 
-    if (computerScore >= TARGET_SCORE || humanScore >= TARGET_SCORE)
+    if (computerScore >= TARGET_SCORE || humanScore >= TARGET_SCORE) {
         document.querySelector("#reset-button").removeAttribute("hidden");
-
+        button_rock    .setAttribute("disabled","");
+        button_paper   .setAttribute("disabled","");
+        button_scissors.setAttribute("disabled","");
+    }
+    
     progressMessage.textContent = computerScore >= TARGET_SCORE ? "The computer has won the game! I, for one, welcome our cybernetic overlords."
-                                : humanScore >= TARGET_SCORE ? "You have beaten the computer! There is still hope for humanity."
-                                : "First to 5 wins...";
+    : humanScore >= TARGET_SCORE ? "You have beaten the computer! There is still hope for humanity."
+    : "First to 5 wins...";
 }
 
 function resetGame() {
@@ -77,13 +81,16 @@ function resetGame() {
     document.querySelector("#scores").innerHTML = "";
     document.querySelector("#progress-message").textContent = "";
     document.querySelector("#reset-button").setAttribute("hidden","");
+    button_rock    .removeAttribute("disabled");
+    button_paper   .removeAttribute("disabled");
+    button_scissors.removeAttribute("disabled");
 }
 
 const button_rock     = document.querySelector("#rock");
 const button_paper    = document.querySelector("#paper");
 const button_scissors = document.querySelector("#scissors");
-button_rock.addEventListener("click", e => playRound(getComputerChoice(), "rock"));
-button_paper.addEventListener("click", e => playRound(getComputerChoice(), "paper"));
+button_rock    .addEventListener("click", e => playRound(getComputerChoice(), "rock"));
+button_paper   .addEventListener("click", e => playRound(getComputerChoice(), "paper"));
 button_scissors.addEventListener("click", e => playRound(getComputerChoice(), "scissors"));
 
 document.querySelector("#reset-button").addEventListener("click", e => resetGame());
