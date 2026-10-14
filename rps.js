@@ -17,6 +17,18 @@ let humanScore;
 let computerScore;
 resetGame();
 
+function resetGame() {
+    humanScore = 0;
+    computerScore = 0;
+    mainMessage.textContent = "Choose your weapon:";
+    scores.innerHTML = "";
+    progressMessage.textContent = "";
+    resetButton.setAttribute("hidden","");
+    button_rock    .removeAttribute("disabled");
+    button_paper   .removeAttribute("disabled");
+    button_scissors.removeAttribute("disabled");
+}
+
 function getComputerChoice() {
     //randomly return "rock", "paper", or "scissors"
 
@@ -33,18 +45,6 @@ function getComputerChoice() {
     }
 }
 
-function getHumanChoice() {
-    //return the user's choice. ASSUME VALID INPUT as per TOP's instructions, but allow any capitalization
-
-    return prompt("Enter rock, paper, or scissors").toLowerCase();
-}
-
-function capitalizeInitialOnly(str) {
-    //helper function
-
-    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-}
-
 function displayScores(_computerScore, _humanScore) {
     const scoreDiv = scores;
     scoreDiv.innerHTML = `Computer: ${_computerScore}<br>Human: ${_humanScore}`;
@@ -53,11 +53,8 @@ function displayScores(_computerScore, _humanScore) {
 function playRound(computerChoice, humanChoice) {
     //evaluate and report the result; and update scores
 
-    const mainMessage = mainMessage;
-    const progressMessage = progressMessage;
-
     if (computerChoice === humanChoice) {
-        mainMessage.textContent = `Tie! You both chose ${capitalizeInitialOnly(computerChoice)}!`;
+        mainMessage.textContent = `Tie! You both chose ${computerChoice}!`;
     }
     else if (
         (computerChoice === "rock"     && humanChoice === "scissors") ||
@@ -65,7 +62,7 @@ function playRound(computerChoice, humanChoice) {
         (computerChoice === "scissors" && humanChoice === "paper"))
     {
         ++computerScore;
-        mainMessage.textContent = `You lose! ${capitalizeInitialOnly(computerChoice)} beats ${capitalizeInitialOnly(humanChoice)}!`;
+        mainMessage.textContent = `You lose! ${computerChoice} beats ${humanChoice}!`;
     }
     else if (
         (humanChoice === "rock"     && computerChoice === "scissors") ||
@@ -73,7 +70,7 @@ function playRound(computerChoice, humanChoice) {
         (humanChoice === "scissors" && computerChoice === "paper"))
     {
         ++humanScore;
-        mainMessage.textContent = `You win! ${capitalizeInitialOnly(humanChoice)} beats ${capitalizeInitialOnly(computerChoice)}!`;
+        mainMessage.textContent = `You win! ${humanChoice} beats ${computerChoice}!`;
     }
     else console.assert(false);
 
@@ -89,16 +86,4 @@ function playRound(computerChoice, humanChoice) {
     progressMessage.textContent = computerScore >= TARGET_SCORE ? "The computer has won the game! I, for one, welcome our cybernetic overlords."
     : humanScore >= TARGET_SCORE ? "You have beaten the computer! There is still hope for humanity."
     : "First to 5 wins...";
-}
-
-function resetGame() {
-    humanScore = 0;
-    computerScore = 0;
-    mainMessage.textContent = "Choose your weapon:";
-    scores.innerHTML = "";
-    progressMessage.textContent = "";
-    resetButton.setAttribute("hidden","");
-    button_rock    .removeAttribute("disabled");
-    button_paper   .removeAttribute("disabled");
-    button_scissors.removeAttribute("disabled");
 }
